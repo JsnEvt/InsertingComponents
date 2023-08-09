@@ -4,6 +4,8 @@
 #include "SphereOfFire.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
 ASphereOfFire::ASphereOfFire()
@@ -16,7 +18,26 @@ ASphereOfFire::ASphereOfFire()
 	RootComponent = CollisionSphere;
 
 	VisibleSphere = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Sphere"));
+
+	FireOfParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("FireParticle"));
+		FireOfParticle->SetupAttachment(VisibleSphere);
+		FireOfParticle->bAutoActivate = true;
+
 	VisibleSphere->SetupAttachment(RootComponent);
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh>Sphere(TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_Sphere.Shape_Sphere'"));
+
+	ConstructorHelpers::FObjectFinder<UMaterialInterface>SphereMaterial(TEXT("Material'/Game/StarterContent/Materials/M_Metal_Gold.M_Metal_Gold'"));
+
+	ConstructorHelpers::FObjectFinder<UParticleSystem>Fire(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Fire.P_Fire'"));
+
+		if (Sphere.Succeeded() && SphereMaterial.Succeeded() && Fire.Succeeded())
+		{
+			VisibleSphere->SetStaticMesh(Sphere.Object);
+			VisibleSphere->SetMaterial(0, SphereMaterial.Object);
+			FireOfParticle->SetTemplate(Fire.Object);
+			VisibleSphere->SetRelativeLocation(FVector(0.f, 0.f, -60.f));
+	}
 
 }
 

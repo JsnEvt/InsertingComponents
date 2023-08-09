@@ -22,6 +22,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		class USphereComponent* CollisionSphere;
 
+	UPROPERTY(Editanywhere, Category = "Components")
+		UParticleSystemComponent* FireOfParticle;
+
 
 
 protected:
