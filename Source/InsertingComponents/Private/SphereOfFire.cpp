@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Components/TextRenderComponent.h"
 
 // Sets default values
 ASphereOfFire::ASphereOfFire()
@@ -22,6 +23,20 @@ ASphereOfFire::ASphereOfFire()
 	FireOfParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("FireParticle"));
 		FireOfParticle->SetupAttachment(VisibleSphere);
 		FireOfParticle->bAutoActivate = true;
+
+	DisplayText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Text"));
+
+	DisplayText->SetupAttachment(VisibleSphere);
+	DisplayText->SetRelativeLocation(FVector(0.f, 0.f, 110.f));
+	DisplayText->SetHorizontalAlignment(EHTA_Center);
+	DisplayText->SetYScale(1.f);
+	DisplayText->SetXScale(1.f);
+	DisplayText->SetText(FText::FromString("C++ na Unreal Udemy"));
+	DisplayText->SetTextRenderColor(FColor::Red);
+	DisplayText->SetVisibility(true);
+
+	OnActorBeginOverlap.AddDynamic(this, &ASphereOfFire::StartedOverlapping);
+	OnActorEndOverlap.AddDynamic(this, &ASphereOfFire::EndedOverlay);
 
 	VisibleSphere->SetupAttachment(RootComponent);
 
@@ -55,3 +70,15 @@ void ASphereOfFire::Tick(float DeltaTime)
 
 }
 
+void ASphereOfFire::StartedOverlapping(AActor* OverlappedActor, AActor* OtherActor)
+{
+	FString OutputString;
+	OutputString = "Overlapping" + OtherActor->GetName() + " !";
+
+	DisplayText->SetText(FText::FromString(OutputString));
+}
+
+void ASphereOfFire::EndedOverlay(AActor* OverlappedActor, AActor* OtherActor)
+{
+	DisplayText->SetText(FText::FromString(TEXT("I stopped overlapping")));
+}

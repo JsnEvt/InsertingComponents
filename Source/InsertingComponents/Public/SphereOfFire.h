@@ -25,7 +25,40 @@ private:
 	UPROPERTY(Editanywhere, Category = "Components")
 		UParticleSystemComponent* FireOfParticle;
 
+protected:
+	UPROPERTY(EditAnywhere, Category = "Variables")
+		bool VariableEditAnywhere;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Variables")
+		float VariableVisibleAnywhere;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Variables")
+		float VariableEditDefaultOnly;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Variables")
+		float VariableVisibleDefaultsOnly;
+
+	UPROPERTY(BluePrintReadWrite, Category = "Variables")
+		FVector VariableBlueprintReadWrite = FVector(0.f, 0.f, -180.f);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Variables")
+		FString VariableBlueprintReadOnly = "Blueprint Text";
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Variables")
+		FString VariableEditAnywhereBlueprintReadWrite = "Editable Text";
+
+	UPROPERTY(BlueprintReadOnly, Category = "Variables")
+		FString VariableEditAnywhereBlueprintReadOnly = "Other Text";
+
+
+
+	UFUNCTION()
+		void StartedOverlapping(AActor* OverlappedActor, AActor* OtherActor);
+
+	UFUNCTION()
+		void EndedOverlay(AActor* OverlappedActor, AActor* OtherActor);
+
+	class UTextRenderComponent* DisplayText;
 
 protected:
 	// Called when the game starts or when spawned
