@@ -50,14 +50,26 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Variables")
 		FString VariableEditAnywhereBlueprintReadOnly = "Other Text";
 
-
-
-	UFUNCTION()
+	//Macro 
+	UFUNCTION(BlueprintNativeEvent)
 		void StartedOverlapping(AActor* OverlappedActor, AActor* OtherActor);
 
-	UFUNCTION()
+	//Esta função será chamada caso a blueprint não sobrescreva(override) esta função.
+		void StartedOverlapping_Implementation(AActor* OverlappedActor, AActor* OtherActor);
+
+
+	UFUNCTION(BlueprintNativeEvent)
 		void EndedOverlay(AActor* OverlappedActor, AActor* OtherActor);
 
+	//Esta função será chamada caso a blueprint não sobrescreva(override) esta função.
+		void EndedOverlay_Implementation(AActor* OverlappedActor, AActor* OtherActor);
+
+
+	//Um codigo para ser implementado na Blueprint.
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Overlays")
+		void ImplementForMeBlueprint();
+
+	UPROPERTY(EditAnywhere, BluePrintReadWrite, Category = "Text")
 	class UTextRenderComponent* DisplayText;
 
 protected:

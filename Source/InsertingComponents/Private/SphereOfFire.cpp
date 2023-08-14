@@ -69,16 +69,17 @@ void ASphereOfFire::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-void ASphereOfFire::StartedOverlapping(AActor* OverlappedActor, AActor* OtherActor)
+//Esta função será chamada caso alguma bluprint criada a partir dessa classe(Parent) não sobrescreva esta função
+void ASphereOfFire::StartedOverlapping_Implementation(AActor* OverlappedActor, AActor* OtherActor)
 {
 	FString OutputString;
-	OutputString = "Overlapping" + OtherActor->GetName() + " !";
+	OutputString = "Overlapping via C++ code the actor:" + OtherActor->GetName() + " !";
 
 	DisplayText->SetText(FText::FromString(OutputString));
 }
 
-void ASphereOfFire::EndedOverlay(AActor* OverlappedActor, AActor* OtherActor)
+//Esta função será chamada caso alguma bluprint criada a partir dessa classe(Parent) não sobrescreva esta função
+void ASphereOfFire::EndedOverlay_Implementation(AActor* OverlappedActor, AActor* OtherActor)
 {
-	DisplayText->SetText(FText::FromString(TEXT("I stopped overlapping")));
+	DisplayText->SetText(FText::FromString(TEXT("I stopped overlapping via C++ code.")));
 }
